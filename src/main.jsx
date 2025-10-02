@@ -86,6 +86,37 @@ const TypewriterHero = () => {
     return () => clearInterval(typeInterval)
   }, [])
   
+  useEffect(() => {
+    const handleWheel = (e) => {
+      // Only trigger if we're on the hero section and not typing
+      if (!isTyping && window.scrollY === 0) {
+        e.preventDefault()
+        document.getElementById('about')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }
+    
+    const handleTouchStart = (e) => {
+      // Handle touch scroll for mobile
+      if (!isTyping && window.scrollY === 0) {
+        document.getElementById('about')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }
+    
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('touchstart', handleTouchStart)
+    }
+  }, [isTyping])
+  
   return (
     <section id="intro" className="h-screen flex items-center justify-center bg-white dark:bg-black relative">
       <div className="text-center">
@@ -95,7 +126,7 @@ const TypewriterHero = () => {
       </h1>
         {!isTyping && (
           <div className="animate-fade-in">
-            <p className="text-lg font-mono text-gray-600 dark:text-gray-400 mb-8">
+            <p className="text-base font-mono text-gray-600 dark:text-gray-400 mb-6 tracking-wider">
               scroll to explore
             </p>
             <button 
@@ -822,15 +853,28 @@ const DarkModeToggle = ({ isDark, setIsDark }) => {
       className="fixed top-4 right-4 z-50 p-2 bg-white dark:bg-black border border-black dark:border-white transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isDark ? (
-        <svg className="w-5 h-5 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="relative w-5 h-5">
+        <svg 
+          className={`w-5 h-5 text-black dark:text-white absolute transition-all duration-300 ${
+            isDark ? 'opacity-100 rotate-0' : 'opacity-0 rotate-180'
+          }`} 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
-      ) : (
-        <svg className="w-5 h-5 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg 
+          className={`w-5 h-5 text-black dark:text-white absolute transition-all duration-300 ${
+            isDark ? 'opacity-0 rotate-180' : 'opacity-100 rotate-0'
+          }`} 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-      )}
+      </div>
     </button>
   )
 }
