@@ -198,7 +198,7 @@ const AboutSection = () => (
           Currently, I'm fixated on <span className="highlight-effect-slow">building hardware to host living art pieces</span>. Think a piece of art on your wall that changes with the weather outside.
         </p>
         <p>
-          I share my progress on <a href="https://www.instagram.com/pete.art/" className="hover-bounce-link">Instagram</a>
+          I share my progress on <a href="https://www.instagram.com/_re_pete/" className="hover-bounce-link">Instagram</a>
         </p>
         <p>
           I write about it weekly on <a href="https://substack.com/@petecybriwsky" className="hover-bounce-link">Substack</a> (<span className="hover-bounce">{calculateWeekStreak('2024-06-10')}-weeks</span> in a row and counting)
