@@ -14,13 +14,13 @@ function getLensCountFromHumidity(humidity) {
 function calculateWeekStreak(startDate) {
   const start = new Date(startDate);
   const now = new Date();
-
+  
   // Calculate the difference in milliseconds
   const diffInMs = now - start;
-
+  
   // Convert to weeks (7 days * 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
   const diffInWeeks = Math.floor(diffInMs / (7 * 24 * 60 * 60 * 1000));
-
+  
   return diffInWeeks;
 }
 
@@ -133,10 +133,10 @@ const TypewriterHero = () => {
         <h1 className="text-4xl md:text-6xl font-mono mb-8 text-black dark:text-white">
           {displayText}
           {isTyping && <span className="animate-pulse">|</span>}
-        </h1>
+      </h1>
         {!isTyping && (
           <div className="animate-fade-in">
-            <p className="text-base font-mono text-gray-600 dark:text-gray-400 mb-6 tracking-wider">
+            <p className="text-base font-mono text-gray-600 mb-6 tracking-wider dark:text-white">
               scroll to explore
             </p>
             <button
@@ -152,11 +152,11 @@ const TypewriterHero = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </button>
-          </div>
-        )}
       </div>
-    </section>
-  )
+        )}
+    </div>
+  </section>
+)
 }
 
 const InstagramIcon = () => (
@@ -332,6 +332,43 @@ const AccordionSection = () => {
         }, 100)
       }
 
+      // Play videos when projects section is opened
+      if (sectionId === 'projects' && !prev[sectionId]) {
+        setTimeout(() => {
+          // Play DNA video
+          const dnaVideo = document.getElementById('dna-video')
+          if (dnaVideo) {
+            if (dnaVideo.readyState >= 2) { // HAVE_CURRENT_DATA
+              dnaVideo.play().catch(err => {
+                console.log('DNA video autoplay failed:', err)
+              })
+            } else {
+              dnaVideo.addEventListener('loadeddata', () => {
+                dnaVideo.play().catch(err => {
+                  console.log('DNA video autoplay failed:', err)
+                })
+              }, { once: true })
+            }
+          }
+
+          // Play Strava video
+          const stravaVideo = document.getElementById('strava-video')
+          if (stravaVideo) {
+            if (stravaVideo.readyState >= 2) { // HAVE_CURRENT_DATA
+              stravaVideo.play().catch(err => {
+                console.log('Strava video autoplay failed:', err)
+              })
+            } else {
+              stravaVideo.addEventListener('loadeddata', () => {
+                stravaVideo.play().catch(err => {
+                  console.log('Strava video autoplay failed:', err)
+                })
+              }, { once: true })
+            }
+          }
+        }, 200)
+      }
+
       return newState
     })
   }
@@ -448,27 +485,6 @@ const AccordionSection = () => {
       )
     },
     {
-      id: 'media',
-      title: 'Media',
-      content: (
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <h3 className="text-sm font-mono">Recent Features</h3>
-            <div className="space-y-2">
-              <div>
-                <a href="https://mashable.com/article/ngen-spotify-data-visualizer" className="hover-bounce-link">Viral Spotify Art Project</a>
-                <p className="text-xs text-gray-600 font-mono">Mashable features ngenart's Spotify data visualizer.</p>
-              </div>
-              <div>
-                <a href="https://open.spotify.com/episode/00Rv9qAg12GJ39mJjPttUP?si=0d98e23614cc4c96" className="hover-bounce-link">Transforming Spotify Data into Art</a>
-                <p className="text-xs text-gray-600 font-mono">Podcast with UVa's School of Data Science covering how I view data as art.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
       id: 'projects',
       title: 'Projects',
       content: (
@@ -480,10 +496,57 @@ const AccordionSection = () => {
             <p className="font-mono text-xs mb-3">
               A platform for users to create art from their Spotify and Strava data. <span className="hover-bounce">9M+</span> users and over <span className="hover-bounce">40M+</span> art pieces created.
             </p>
-            <div className="flex flex-wrap gap-1">
+            
+            <div className="flex flex-wrap gap-1 mb-3">
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">p5.js</span>
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">Firebase</span>
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">APIs</span>
+            </div>
+            
+            {/* DNA Sample Video */}
+            <div className="mb-2 flex flex-col items-center">
+              <video 
+                id="dna-video"
+                loop 
+                muted 
+                playsInline
+                className="w-full max-w-xs border border-black dark:border-white"
+                onError={(e) => {
+                  console.log('DNA video error:', e.target.error)
+                }}
+                onLoadedData={() => {
+                  console.log('DNA video loaded successfully')
+                }}
+              >
+                <source src="/videos/DNASample.mp4" type="video/mp4" />
+                <source src="/videos/DNASample.mov" type="video/quicktime" />
+                Your browser does not support the video tag.
+              </video>
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">
+                Real-time DNA visualization generated from user data
+              </p>
+            </div>
+            <div className="mb-2 flex flex-col items-center">
+              <video 
+                id="strava-video"
+                loop 
+                muted 
+                playsInline
+                className="w-full max-w-xs border border-black dark:border-white"
+                onError={(e) => {
+                  console.log('Strava video error:', e.target.error)
+                }}
+                onLoadedData={() => {
+                  console.log('Strava video loaded successfully')
+                }}
+              >
+                <source src="/videos/StravaReceipt.mp4" type="video/mp4" />
+                <source src="/videos/StravaReceipt.mov" type="video/quicktime" />
+                Your browser does not support the video tag.
+              </video>
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">
+                Real-time Strava receipt visualization generated from user data
+              </p>
             </div>
           </div>
 
@@ -494,10 +557,31 @@ const AccordionSection = () => {
             <p className="font-mono text-xs mb-3">
               iOS app that allows users to create art from their health data. <span className="hover-bounce">1000+</span> users.
             </p>
+
             <div className="flex flex-wrap gap-1">
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">Swift</span>
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">p5.js</span>
             </div>
+            
+            {/* Media Section */}
+            <div className="mb-3 flex flex-col items-center">
+              <img 
+                src="/images/ElevationWidget.PNG" 
+                alt="Day by Data iOS app screenshot" 
+                className="w-full max-w-xs border border-black dark:border-white mb-2"
+              />
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">Elevation Widget from the Day by Data app to track elevation to the moon based on Apple Health data</p>
+            </div>
+            <div className="mb-3 flex flex-col items-center">
+              <img 
+                src="/images/SpotifyWidget.PNG" 
+                alt="Day by Data iOS app screenshot" 
+                className="w-full max-w-xs border border-black dark:border-white mb-2"
+              />
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">Spotify ID Widget from the Day by Data app to track Spotify listening history</p>
+            </div>
+            
+            
           </div>
 
           <div className="border border-black dark:border-white p-4">
@@ -507,9 +591,52 @@ const AccordionSection = () => {
             <p className="font-mono text-xs mb-3">
               iOS app for tracking distances and creating art from movement data.
             </p>
+
             <div className="flex flex-wrap gap-1">
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">Swift</span>
               <span className="px-2 py-1 border border-black dark:border-white text-xs font-mono">p5.js</span>
+            </div>
+            
+            {/* Media Section */}
+            <div className="mb-3 flex flex-col items-center">
+              <img 
+                src="/images/AhoyApp.PNG" 
+                alt="Ahoy home screen to track distances around the world." 
+                className="w-full max-w-xs border border-black dark:border-white mb-2"
+              />
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">Ahoy home screen to track distances around the world.</p>
+            </div>
+            {/* Media Section */}
+            <div className="mb-3 flex flex-col items-center">
+              <img 
+                src="/images/AhoyWidget.PNG" 
+                alt="Ahoy home screen to track distances around the world." 
+                className="w-full max-w-xs border border-black dark:border-white mb-2"
+              />
+              <p className="text-xs font-mono text-gray-600 mt-1 text-center dark:text-white">Ahoy home screen to track distances around the world.</p>
+            </div>
+            
+            
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'media',
+      title: 'Media',
+      content: (
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <h3 className="text-sm font-mono">Recent Features</h3>
+            <div className="space-y-2">
+        <div>
+                <a href="https://mashable.com/article/ngen-spotify-data-visualizer" className="hover-bounce-link">Viral Spotify Art Project</a>
+                <p className="text-xs text-gray-600 font-mono">Mashable features ngenart's Spotify data visualizer.</p>
+        </div>
+        <div>
+                <a href="https://open.spotify.com/episode/00Rv9qAg12GJ39mJjPttUP?si=0d98e23614cc4c96" className="hover-bounce-link">Transforming Spotify Data into Art</a>
+                <p className="text-xs text-gray-600 font-mono">Podcast with UVa's School of Data Science covering how I view data as art.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -559,10 +686,10 @@ const AccordionSection = () => {
               )}
             </div>
           ))}
-        </div>
       </div>
-    </section>
-  )
+    </div>
+  </section>
+)
 }
 
 // Thesis Section Component (keeping for weather functionality)
@@ -572,11 +699,11 @@ const ThesisSection = () => {
   const [isManualMode, setIsManualMode] = useState(false)
   const [manualTemp, setManualTemp] = useState(20) // Default to 20°C
   const [manualHumidity, setManualHumidity] = useState(50) // Default to 50%
-
+  
   // NYC coordinates
   const NY_LAT = 40.7128
   const NY_LNG = -74.0060
-
+  
   const fetchWeather = async () => {
     const apiKey = '5d07d30b0246f6207ec7888efecc0602'
     try {
@@ -585,7 +712,7 @@ const ThesisSection = () => {
       )
       const weatherData = await weatherRes.json()
       setWeather(weatherData)
-
+      
       // Convert Fahrenheit to Celsius for display
       const tempF = weatherData.main.temp
       const tempC = ((tempF - 32) * 5 / 9).toFixed(1)
@@ -594,28 +721,28 @@ const ThesisSection = () => {
       console.log('Weather fetch error:', err)
     }
   }
-
+  
   useEffect(() => {
     // Fetch weather data on component mount
     fetchWeather()
-
+    
     // Fetch weather every 5 minutes
     const interval = setInterval(fetchWeather, 5 * 60 * 1000)
-
+    
     return () => clearInterval(interval)
   }, [])
-
+  
   useEffect(() => {
     // Initialize the thesis sketch after weather data is available
     const thesisContainer = document.getElementById('thesis-sketch-container')
     if (thesisContainer && weather) {
       const sketch = createThesisSketch('thesis-sketch-container', weather)
-
+      
       // Store sketch reference for updates
       window.thesisSketch = sketch
     }
   }, [weather])
-
+  
   useEffect(() => {
     // Update sketch when weather data or manual parameters change
     if (window.thesisSketch && window.thesisSketch.updateWeather) {
@@ -651,13 +778,13 @@ const ThesisSection = () => {
               We can also observe the world around us and turn it into art. For instance, in New York right now, it is <span className="font-bold">{isManualMode ? `${Math.round((manualTemp * 9 / 5) + 32)}°F ` : `${Math.round((parseFloat(tempC) * 9 / 5) + 32)}°F `}</span> and <span className="font-bold">{isManualMode ? `${manualHumidity}%` : `${parseFloat(tempC)}%`} humidity. </span> This below piece responds to reflect the temperature and humidity in real-time.
             </p>
           </div>
-
+          
           <div className="mt-6">
             <div id="thesis-sketch-container" className="w-[300px] h-[300px] justify-center items-center">
               {/* p5.js canvas will be inserted here */}
             </div>
           </div>
-
+          
           {/* Interactive Controls */}
           <div className="mt-4 space-y-4">
             {/* Mode Toggle */}
@@ -665,9 +792,9 @@ const ThesisSection = () => {
               <button
                 onClick={() => setIsManualMode(!isManualMode)}
                 className={`px-3 py-1 text-xs font-mono border border-black transition-colors ${isManualMode
-                    ? 'bg-black text-white'
+                    ? 'bg-black text-white' 
                     : 'bg-white text-black hover:bg-gray-100'
-                  }`}
+                }`}
               >
                 {isManualMode ? 'Manual Mode' : 'Real-time Mode'}
               </button>
@@ -675,7 +802,7 @@ const ThesisSection = () => {
                 {isManualMode ? 'Adjust parameters manually' : 'Using live NYC weather data'}
               </span>
             </div>
-
+            
             {/* Manual Controls */}
             {isManualMode && (
               <div className="space-y-3 p-3 border border-black">
@@ -699,7 +826,7 @@ const ThesisSection = () => {
                     <span>50°C</span>
                   </div>
                 </div>
-
+                
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <label className="text-xs font-mono">Humidity: {manualHumidity}%</label>
@@ -724,10 +851,10 @@ const ThesisSection = () => {
             )}
 
           </div>
-
+          
           <div className="text-xs font-mono text-gray-600 mt-2">
             <p>
-              {isManualMode
+              {isManualMode 
                 ? `Manual visualization: Temperature ${Math.round((manualTemp * 9 / 5) + 32)}°F, Humidity ${manualHumidity}%`
                 : 'Real-time weather visualization using WebGL shaders and mathematical curves'
               }
@@ -739,7 +866,7 @@ const ThesisSection = () => {
               This piece takes a piece of the natural world and turns it into art. The same can be done with so many other things.
             </p>
             <p>
-              In a world that's increasingly AI generated and rendered, I believe we can still find beauty in the simple things, and turn our data and the world around us into a beuatiful input for art.
+             In a world that's increasingly AI generated and rendered, I believe we can still find beauty in the simple things, and turn our data and the world around us into a beuatiful input for art.
             </p>
           </div>
         </div>
@@ -794,7 +921,7 @@ const ProjectsSection = () => (
             <span className="px-2 py-1 border border-black text-xs font-mono">APIs</span>
           </div>
         </div>
-
+        
         <div className="border border-black p-4">
           <h3 className="text-sm font-mono mb-2">
             <a href="#" className="underline hover:no-underline">Day by Data</a>
@@ -921,21 +1048,21 @@ const App = () => {
   useEffect(() => {
     // Smooth scrolling for navigation links
     const links = document.querySelectorAll('a[href^="#"]')
-
+    
     links.forEach(link => {
       link.addEventListener('click', function (e) {
         e.preventDefault()
-
+        
         const targetId = this.getAttribute('href')
         const targetSection = document.querySelector(targetId)
-
+        
         if (targetSection) {
           targetSection.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
           })
         }
-
+        
         // Close mobile menu if open
         const mobileMenu = document.getElementById('mobile-menu')
         if (mobileMenu && !mobileMenu.classList.contains('hidden')) {

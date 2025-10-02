@@ -214,6 +214,11 @@
     color: #9ca3af;
   }
   
+  /* Ensure dark:text-white overrides text-gray-600 in dark mode */
+  .dark .text-gray-600.dark\:text-white {
+    color: #ffffff !important;
+  }
+  
   .dark .text-gray-400 {
     color: #9ca3af;
   }
