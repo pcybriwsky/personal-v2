@@ -1,0 +1,20 @@
+{
+  "name": "personal-v2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "p5": "^2.0.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
