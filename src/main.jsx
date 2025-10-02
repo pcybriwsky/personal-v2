@@ -209,12 +209,15 @@ const AboutSection = () => (
         <p>
           And I respond to <a href="mailto:pete@ngenart.com" className="hover-bounce-link">emails</a>
         </p>
+        
         <p>
-          Most recently I shared my work at the <a href="https://data-art.info/schedule" className="hover-bounce-link">Data Art Symposium at Harvard</a> as well as at UVa, where I hopped on <a href="https://open.spotify.com/episode/00Rv9qAg12GJ39mJjPttUP?si=0d98e23614cc4c96" className="hover-bounce-link">the Data Points podcast</a> to share my stuff. <a href="https://datascience.virginia.edu/pages/nebulae-pete-cybriwsky" className="hover-bounce-link">I also won a few awards at the inaguaral Data is Art Competition</a>.
+          Most recently, I self-hosted my first gallery, the <a href="https://v1-gallery.vercel.com/" className="hover-bounce-link">v1.0 Gallery</a> in New York City, with <span className="hover-bounce">300+</span> attendees and <span className="hover-bounce">5</span> artists including myself.
         </p>
+        
         <p>
-          I also self-hosted my first gallery, the <a href="https://v1-gallery.vercel.com/" className="hover-bounce-link">v1.0 Gallery</a> in New York City, with <span className="hover-bounce">300+</span> attendees and <span className="hover-bounce">5</span> artists including myself.
+          Previously, I shared my work at the <a href="https://data-art.info/schedule" className="hover-bounce-link">Data Art Symposium at Harvard</a> as well as at UVa, where I hopped on <a href="https://open.spotify.com/episode/00Rv9qAg12GJ39mJjPttUP?si=0d98e23614cc4c96" className="hover-bounce-link">the Data Points podcast</a> to share my stuff. <a href="https://datascience.virginia.edu/pages/nebulae-pete-cybriwsky" className="hover-bounce-link">I also won a few awards at the inaguaral Data is Art Competition</a>.
         </p>
+        
         <p>
           In the past, I built <a href="https://ngenart.com" className="hover-bounce-link">ngen</a>, a site with <span className="hover-bounce">9M+</span> users that turned Spotify and Strava data into art. People made over <span className="hover-bounce">40M+</span> art pieces. <span className="highlight-effect-fast">It went pretty viral, it was fun.</span>
         </p>
