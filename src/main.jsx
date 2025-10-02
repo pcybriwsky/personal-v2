@@ -88,8 +88,8 @@ const TypewriterHero = () => {
   
   useEffect(() => {
     const handleWheel = (e) => {
-      // Only trigger if we're on the hero section and not typing
-      if (!isTyping && window.scrollY === 0) {
+      // Only trigger if we're on the hero section, not typing, and scrolling down
+      if (!isTyping && window.scrollY === 0 && e.deltaY > 0) {
         e.preventDefault()
         document.getElementById('about')?.scrollIntoView({
           behavior: 'smooth',
@@ -98,9 +98,17 @@ const TypewriterHero = () => {
       }
     }
     
+    let touchStartY = 0
     const handleTouchStart = (e) => {
-      // Handle touch scroll for mobile
-      if (!isTyping && window.scrollY === 0) {
+      touchStartY = e.touches[0].clientY
+    }
+    
+    const handleTouchEnd = (e) => {
+      const touchEndY = e.changedTouches[0].clientY
+      const touchDiff = touchStartY - touchEndY
+      
+      // Only trigger if swiping down (positive touchDiff) and on hero section
+      if (!isTyping && window.scrollY === 0 && touchDiff > 50) {
         document.getElementById('about')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
@@ -110,10 +118,12 @@ const TypewriterHero = () => {
     
     window.addEventListener('wheel', handleWheel, { passive: false })
     window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
     
     return () => {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isTyping])
   

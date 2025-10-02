@@ -19,6 +19,15 @@
     @apply text-black dark:text-white underline hover:no-underline transition-all duration-200;
   }
   
+  /* Ensure links are visible in dark mode */
+  .dark a {
+    color: #ffffff !important;
+  }
+  
+  .dark a:hover {
+    color: #ffffff !important;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     @apply font-mono font-normal;
   }
@@ -233,6 +242,11 @@
     background-color: #1f2937;
   }
   
+  /* Fix accordion hover in dark mode */
+  .dark button:hover {
+    background-color: #374151 !important;
+  }
+  
   /* Ensure typewriter hero text is visible in dark mode */
   .dark h1 {
     color: #ffffff !important;
@@ -250,5 +264,20 @@
   
   .dark footer p {
     color: #9ca3af !important;
+  }
+  
+  /* Fix dark mode toggle button styling */
+  .dark button[aria-label*="Switch to"] {
+    background-color: #000000 !important;
+    border-color: #ffffff !important;
+  }
+  
+  .dark button[aria-label*="Switch to"]:hover {
+    background-color: #1f2937 !important;
+  }
+  
+  /* Fix sun icon color in dark mode */
+  .dark button[aria-label*="Switch to"] svg {
+    color: #ffffff !important;
   }
 }
